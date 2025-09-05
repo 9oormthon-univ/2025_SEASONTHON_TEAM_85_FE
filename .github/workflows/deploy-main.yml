@@ -53,7 +53,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /opt/futurefinder
-            echo DOMAIN_NAME=${{ secrets.DOMAIN_NAME }} >> .env
             sudo docker compose pull
             sudo docker compose build --no-cache
             sudo docker compose up -d
