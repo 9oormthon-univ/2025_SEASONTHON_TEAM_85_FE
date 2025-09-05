@@ -21,8 +21,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.4'
-          cache: false
+          flutter-version: '3.22.2'
 
       # 3. 의존성 설치
       - name: Flutter pub get
