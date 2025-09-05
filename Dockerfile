@@ -2,7 +2,7 @@
 FROM nginx:alpine
 
 # 빌드된 플러터 웹 파일 복사
-COPY web_build/ /usr/share/nginx/html
+COPY build/web/ /usr/share/nginx/html
 
 # Nginx 설정 복사
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
