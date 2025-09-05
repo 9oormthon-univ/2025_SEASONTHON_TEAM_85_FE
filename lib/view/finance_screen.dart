@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:futurefinder_flutter/view/bottom_nav_bar.dart';
-import 'package:futurefinder_flutter/view/jobs_screen.dart';
-import 'package:futurefinder_flutter/view/settings_screen.dart';
-import 'package:futurefinder_flutter/view/subscription_screen.dart';
 
 class FinanceScreen extends StatelessWidget {
   const FinanceScreen({super.key});

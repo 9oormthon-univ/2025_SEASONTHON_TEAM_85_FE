@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:futurefinder_flutter/view/finance_screen.dart';
 import 'package:futurefinder_flutter/view/home_screen.dart';
 import 'package:futurefinder_flutter/view/jobs_screen.dart';
+import 'package:futurefinder_flutter/view/login_screen.dart';
 import 'package:futurefinder_flutter/view/settings_screen.dart';
 import 'package:futurefinder_flutter/view/shell_screen.dart';
 import 'package:futurefinder_flutter/view/subscription_screen.dart';
@@ -11,8 +12,9 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/home',
+  initialLocation: '/login',
   routes: [
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ShellScreen(navigationShell: navigationShell);
