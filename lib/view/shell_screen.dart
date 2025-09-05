@@ -17,7 +17,6 @@ class ShellScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 대부분의 화면에서 사용하는 AppBar 스타일을 기준으로 생성합니다.
     final bool isHomeScreen = navigationShell.currentIndex == 0;
 
     return Scaffold(
