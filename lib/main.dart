@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:futurefinder_flutter/view/home_page.dart';
+import 'package:futurefinder_flutter/view/home_screen.dart';
 //import 'package:provider/provider.dart';
 
 void main() {
@@ -17,8 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'FutureFinder',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-
-      routes: {'/': (context) => HomePage()},
+      routes: {'/': (context) => HomeScreen()},
     );
   }
 }
