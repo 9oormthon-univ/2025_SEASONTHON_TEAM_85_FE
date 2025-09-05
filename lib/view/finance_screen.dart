@@ -10,20 +10,6 @@ class FinanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          '금융',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
-      ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
@@ -41,25 +27,6 @@ class FinanceScreen extends StatelessWidget {
             color: const Color(0xFFF6F6F6),
           ),
         ],
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 1,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.popUntil(context, (route) => route.isFirst);
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SubscriptionScreen(),
-              ),
-            );
-          } else if (index == 3) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const JobsScreen()));
-          } else if (index == 4) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
-          }
-        },
       ),
     );
   }

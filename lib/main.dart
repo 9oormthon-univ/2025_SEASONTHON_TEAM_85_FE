@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:futurefinder_flutter/view/home_screen.dart';
+import 'package:futurefinder_flutter/router/router.dart';
 //import 'package:provider/provider.dart';
 
 void main() {
@@ -13,11 +13,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'FutureFinder',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {'/': (context) => HomeScreen()},
+      routerConfig: router,
     );
   }
 }
