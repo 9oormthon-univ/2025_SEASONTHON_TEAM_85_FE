@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/view/bottom_nav_bar.dart';
+import 'package:futurefinder_flutter/view/finance_screen.dart';
+import 'package:futurefinder_flutter/view/jobs_screen.dart';
+import 'package:futurefinder_flutter/view/settings_screen.dart';
+import 'package:futurefinder_flutter/view/subscription_screen.dart';
 
-//import 'package:provider/provider.dart';
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,35 +43,37 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 20),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        // StatelessWidget이므로 상태가 없어 currentIndex를 0으로 고정
+      bottomNavigationBar: CustomBottomNavBar(
         currentIndex: 0,
-        // 탭을 눌러도 상태가 변경되지 않으므로 onTap은 빈 함수로 처리
-        onTap: (index) {},
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance),
-            label: '금융',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: '청약',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.work), label: '일자리'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: '설정'),
-        ],
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FinanceScreen()),
+            );
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SubscriptionScreen(),
+              ),
+            );
+          } else if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const JobsScreen()),
+            );
+          } else if (index == 4) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingsScreen()),
+            );
+          }
+        },
       ),
     );
   }
 
-  // 각 섹션을 구분하는 회색 막대
   Widget _buildDivider() {
     return Container(
       height: 8,
@@ -76,7 +82,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // 검색창 위젯
   Widget _buildSearchBar() {
     return TextField(
       decoration: InputDecoration(
@@ -94,7 +99,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // 섹션 헤더 (예: 경제뉴스, 실시간 주식현황)
   Widget _buildSectionHeader(String title, String actionText) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,21 +120,18 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // 경제뉴스 섹션
   Widget _buildNewsSection() {
     return Column(
       children: [
         _buildSectionHeader('경제뉴스', '더보기'),
         const SizedBox(height: 16),
         _buildNewsItem(
-          // 이미지 대신 회색 Container로 대체
           title: '사이버 보안 비상… 전 금융권 내일부터 블라인드 모의해킹',
           source: '연합뉴스TV',
           time: '5분전',
         ),
         const SizedBox(height: 16),
         _buildNewsItem(
-          // 이미지 대신 회색 Container로 대체
           title: '지방 건설 경기 악화… 5대 은행, 건설업 연체 대출 ‘급증’',
           source: '부산일보',
           time: '11분전',
@@ -139,24 +140,20 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // 개별 뉴스 아이템을 그리는 위젯 함수 (이미지 부분을 Container로 수정)
   Widget _buildNewsItem({
-    // imageUrl 매개변수 제거
     required String title,
     required String source,
     required String time,
   }) {
     return Row(
       children: [
-        // 이미지 대신 회색 배경의 Container로 대체
         Container(
           width: 80,
           height: 80,
           decoration: BoxDecoration(
-            color: Colors.grey[300], // 회색 배경
+            color: Colors.grey[300],
             borderRadius: BorderRadius.circular(8.0),
           ),
-          // 이미지 대신 아이콘을 넣고 싶다면 여기에 child: Icon(Icons.image, size: 40, color: Colors.grey[500])
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -184,7 +181,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // 실시간 주식 현황 섹션
   Widget _buildStockSection() {
     return Column(
       children: [
@@ -290,13 +286,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // 금일 마감 채용공고 섹션
   Widget _buildJobSection() {
     return Column(
       children: [
         _buildSectionHeader('금일 마감 채용공고', '전체 공고 보기'),
         const SizedBox(height: 16),
-        // 여러 개의 채용 공고를 Column으로 나열
         _buildJobItem(
           tag: '인턴',
           tagColor: Colors.cyan.shade100,
@@ -304,7 +298,7 @@ class HomePage extends StatelessWidget {
           company: '[삼성전자]',
           description: 'DX 부문 2025년 하반기 3급 신입사원 채용 공고',
         ),
-        const SizedBox(height: 20), // 아이템 사이 간격
+        const SizedBox(height: 20),
         _buildJobItem(
           tag: '신입',
           tagColor: Colors.blue.shade100,
@@ -312,7 +306,7 @@ class HomePage extends StatelessWidget {
           company: '[롯데 면세점]',
           description: '2025년 9월 롯데면세점 신입사원 I\'M 전형',
         ),
-        const SizedBox(height: 20), // 아이템 사이 간격
+        const SizedBox(height: 20),
         _buildJobItem(
           tag: '신입',
           tagColor: Colors.blue.shade100,
@@ -324,7 +318,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // 개별 채용공고 아이템을 그리는 위젯 함수
   Widget _buildJobItem({
     required String tag,
     required Color tagColor,
@@ -335,7 +328,6 @@ class HomePage extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // 좌측 태그 (인턴/신입, D-DAY)
         Container(
           width: 60,
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -365,7 +357,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        // 중앙 텍스트 정보 (회사명, 공고 내용)
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,7 +378,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        // 우측 별 아이콘
         const Icon(Icons.star_border, color: Colors.grey, size: 28),
       ],
     );
