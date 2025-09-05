@@ -1,78 +1,35 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:futurefinder_flutter/view/bottom_nav_bar.dart';
-import 'package:futurefinder_flutter/view/finance_screen.dart';
-import 'package:futurefinder_flutter/view/jobs_screen.dart';
-import 'package:futurefinder_flutter/view/subscription_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          '설정',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        children: [
-          const SizedBox(height: 24),
-          _buildProfileSection(),
-          const SizedBox(height: 24),
-          _buildContactInfoBox(),
-          const SizedBox(height: 32),
-          _buildSectionHeader('계정'),
-          _buildSettingsItem('아이디'),
-          _buildSettingsItem('비밀번호'),
-          const SizedBox(height: 24),
-          _buildSectionHeader('이용안내'),
-          _buildSettingsItem('알림 설정'),
-          _buildSettingsItem('서비스 이용 약관'),
-          _buildSettingsItem('개인정보처리방침'),
-          _buildSettingsItem('고객센터'),
-          const SizedBox(height: 24),
-          _buildSectionHeader('기타'),
-          _buildSettingsItem('로그아웃'),
-          _buildSettingsItem('회원탈퇴'),
-          const SizedBox(height: 40),
-        ],
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 4,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.popUntil(context, (route) => route.isFirst);
-          } else if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FinanceScreen()),
-            );
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SubscriptionScreen(),
-              ),
-            );
-          } else if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const JobsScreen()),
-            );
-          }
-        },
-      ),
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      children: [
+        const SizedBox(height: 24),
+        _buildProfileSection(),
+        const SizedBox(height: 24),
+        _buildContactInfoBox(),
+        const SizedBox(height: 32),
+        _buildSectionHeader('계정'),
+        _buildSettingsItem('아이디'),
+        _buildSettingsItem('비밀번호'),
+        const SizedBox(height: 24),
+        _buildSectionHeader('이용안내'),
+        _buildSettingsItem('알림 설정'),
+        _buildSettingsItem('서비스 이용 약관'),
+        _buildSettingsItem('개인정보처리방침'),
+        _buildSettingsItem('고객센터'),
+        const SizedBox(height: 24),
+        _buildSectionHeader('기타'),
+        _buildSettingsItem('로그아웃'),
+        _buildSettingsItem('회원탈퇴'),
+        const SizedBox(height: 40),
+      ],
     );
   }
 

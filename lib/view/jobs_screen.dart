@@ -1,88 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:futurefinder_flutter/view/bottom_nav_bar.dart';
-import 'package:futurefinder_flutter/view/finance_screen.dart';
-import 'package:futurefinder_flutter/view/settings_screen.dart';
-import 'package:futurefinder_flutter/view/subscription_screen.dart';
 
 class JobsScreen extends StatelessWidget {
   const JobsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          '일자리',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      children: [
+        _buildHeader(),
+        const SizedBox(height: 20),
+        _buildMyInfoCard(),
+        const SizedBox(height: 30),
+        _buildSectionHeader(title: '모집중인 인턴 공고'),
+        const SizedBox(height: 16),
+        _buildRecommendedJobItem(
+          company: '[MISO]',
+          title: '사업운영 인턴, Operations Intern',
+          tag: '인턴',
+          dDay: 'D-23',
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black, size: 28),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        children: [
-          _buildHeader(),
-          const SizedBox(height: 20),
-          _buildMyInfoCard(),
-          const SizedBox(height: 30),
-          _buildSectionHeader(title: '모집중인 인턴 공고'),
-          const SizedBox(height: 16),
-          _buildRecommendedJobItem(
-            company: '[MISO]',
-            title: '사업운영 인턴, Operations Intern',
-            tag: '인턴',
-            dDay: 'D-23',
-          ),
-          _buildRecommendedJobItem(
-            company: '[삼성전자]',
-            title: 'DX 부문 인턴 채용',
-            tag: '인턴',
-            dDay: 'D-20',
-          ),
-          _buildRecommendedJobItem(
-            company: '[삼성전자]',
-            title: 'DX 부문 인턴 채용',
-            tag: '인턴',
-            dDay: 'D-20',
-          ),
-          const SizedBox(height: 30),
-          _buildSectionHeader(title: 'AI 매치 채용 공고'),
-          const SizedBox(height: 16),
-          _buildAiJobGrid(),
-          const SizedBox(height: 20),
-        ],
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 3,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.popUntil(context, (route) => route.isFirst);
-          } else if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FinanceScreen()),
-            );
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SubscriptionScreen(),
-              ),
-            );
-          } else if (index == 4) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SettingsScreen()),
-            );
-          }
-        },
-      ),
+        _buildRecommendedJobItem(
+          company: '[삼성전자]',
+          title: 'DX 부문 인턴 채용',
+          tag: '인턴',
+          dDay: 'D-20',
+        ),
+        _buildRecommendedJobItem(
+          company: '[삼성전자]',
+          title: 'DX 부문 인턴 채용',
+          tag: '인턴',
+          dDay: 'D-20',
+        ),
+        const SizedBox(height: 30),
+        _buildSectionHeader(title: 'AI 매치 채용 공고'),
+        const SizedBox(height: 16),
+        _buildAiJobGrid(),
+        const SizedBox(height: 20),
+      ],
     );
   }
 

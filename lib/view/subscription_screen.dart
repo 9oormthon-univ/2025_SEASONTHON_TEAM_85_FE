@@ -1,82 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:futurefinder_flutter/view/bottom_nav_bar.dart';
-import 'package:futurefinder_flutter/view/finance_screen.dart';
-import 'package:futurefinder_flutter/view/jobs_screen.dart';
-import 'package:futurefinder_flutter/view/settings_screen.dart';
 
 class SubscriptionScreen extends StatelessWidget {
   const SubscriptionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF8F9FA),
-        elevation: 0,
-        title: const Text(
-          '청약',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      children: [
+        const SizedBox(height: 8),
+        _buildInfoCard(),
+        const SizedBox(height: 16),
+        _buildChatbotCard(),
+        const SizedBox(height: 32),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4.0),
+          child: Text(
+            '청약상품',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        children: [
-          const SizedBox(height: 8),
-          _buildInfoCard(),
-          const SizedBox(height: 16),
-          _buildChatbotCard(),
-          const SizedBox(height: 32),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.0),
-            child: Text(
-              '청약상품',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const SizedBox(height: 16),
-          _buildProductCard(
-            title: '청년 주택드림 청약통장',
-            subtitle: '청년의 주거안정과 목돈마련 기회를 제공하는 청약상품',
-            interestRate: '연 3.12% - 4.20%',
-          ),
-          const SizedBox(height: 12),
-          _buildProductCard(
-            title: '주택청약종합저축',
-            subtitle: '주택청약자격을 부여하는 상품',
-            interestRate: '연 3.10%',
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 2,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.popUntil(context, (route) => route.isFirst);
-          } else if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FinanceScreen()),
-            );
-          } else if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const JobsScreen()),
-            );
-          } else if (index == 4) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SettingsScreen()),
-            );
-          }
-        },
-      ),
+        const SizedBox(height: 16),
+        _buildProductCard(
+          title: '청년 주택드림 청약통장',
+          subtitle: '청년의 주거안정과 목돈마련 기회를 제공하는 청약상품',
+          interestRate: '연 3.12% - 4.20%',
+        ),
+        const SizedBox(height: 12),
+        _buildProductCard(
+          title: '주택청약종합저축',
+          subtitle: '주택청약자격을 부여하는 상품',
+          interestRate: '연 3.10%',
+        ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 
