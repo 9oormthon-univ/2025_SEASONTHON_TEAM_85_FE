@@ -22,6 +22,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.13.4'
+          cache: false
 
       # 3. 의존성 설치
       - name: Flutter pub get
@@ -54,4 +55,5 @@ jobs:
           script: |
             cd /opt/futurefinder
             sudo docker compose pull
+            sudo docker compose build --no-cache
             sudo docker compose up -d
