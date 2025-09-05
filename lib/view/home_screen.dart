@@ -32,19 +32,30 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildSearchBar() {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: '검색',
-        prefixIcon: const Icon(Icons.search, color: Colors.grey),
-        suffixIcon: const Icon(Icons.bookmark_border, color: Colors.grey),
-        filled: true,
-        fillColor: const Color(0xFFF0F2F5),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+    return Row(
+      children: [
+        // 검색창
+        Expanded(
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: '검색',
+              suffixIcon: const Icon(Icons.search, color: Colors.black),
+              filled: true,
+              fillColor: const Color(0xFFF0F2F5),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 0,
+                horizontal: 20,
+              ),
+            ),
+          ),
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 0),
-      ),
+        const SizedBox(width: 8), // 간격
+        const Icon(Icons.bookmark_border, color: Colors.grey),
+      ],
     );
   }
 
@@ -178,7 +189,11 @@ class HomeScreen extends StatelessWidget {
       children: [
         Text(
           rank,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF00E2E0),
+          ),
         ),
         const SizedBox(width: 12),
         CircleAvatar(

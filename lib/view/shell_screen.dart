@@ -25,20 +25,23 @@ class ShellScreen extends StatelessWidget {
             ? const Color(0xFFF8F9FA)
             : Colors.white,
         elevation: 0,
-        title: Text(
-          _appBarTitles[navigationShell.currentIndex],
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: isHomeScreen ? 22 : 24, // 홈 화면만 22, 나머지는 24로 설정
-          ),
-        ),
+        title: isHomeScreen
+            ? Image.asset('assets/images/main_logo.png', width: 120)
+            : Text(
+                _appBarTitles[navigationShell.currentIndex],
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: isHomeScreen ? 22 : 24, // 홈 화면만 22, 나머지는 24로 설정
+                ),
+              ),
         actions: [
           IconButton(
             icon: const Icon(Icons.menu, color: Colors.black),
             onPressed: () {},
           ),
         ],
+        toolbarHeight: isHomeScreen ? 50 : kToolbarHeight,
       ),
       body: navigationShell,
       bottomNavigationBar: CustomBottomNavBar(

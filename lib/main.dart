@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: ThemeData(scaffoldBackgroundColor: Color(0xFFFFFFFF)),
       title: 'FutureFinder',
       debugShowCheckedModeBanner: false,
       routerConfig: router,
