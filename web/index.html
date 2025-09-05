@@ -16,6 +16,24 @@
   -->
   <base href="$FLUTTER_BASE_HREF">
 
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f3f6fb;
+    }
+    #splash-logo {
+      width: 300px;
+      height: 300px;
+      background-image: url('assets/images/main_logo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  </style>
+
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
@@ -23,16 +41,21 @@
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Futurefinder">
+  <meta name="apple-mobile-web-app-title" content="FutureFinder">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>Futurefinder</title>
+  <title>FutureFinder</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <div class="flt-glass-pane">
+    <div id="flt-splash" class="flt-splash">
+      <img src="icons/Icon-192.png">
+    </div>
+  </div>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
