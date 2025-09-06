@@ -118,7 +118,11 @@ class _SearchScreenState extends State<SearchScreen> {
     if (searchViewModel.currentSearchResult == null) {
       return const Center(child: Text('검색 결과가 없습니다.'));
     } else {
-      return _buildSearchResultItem(searchViewModel.currentSearchResult!);
+      return Expanded(
+        child: SingleChildScrollView(
+          child: _buildSearchResultItem(searchViewModel.currentSearchResult!),
+        ),
+      );
     }
   }
 
