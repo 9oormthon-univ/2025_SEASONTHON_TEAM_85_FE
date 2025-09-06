@@ -33,7 +33,7 @@ class AuthRepository {
       headers: {'Authorization': 'Bearer ${await getAccessToken()}'},
     );
 
-    return await User.fromJson(response.data);
+    return User.fromJson(response.data);
   }
 
   Future<String?> getAccessToken() async {
