@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    authViewModel = context.watch<AuthViewModel>();
+    authViewModel = context.read<AuthViewModel>();
 
     Future.microtask(() async {
       EasyLoading.show(status: '로딩 중...', maskType: EasyLoadingMaskType.black);
@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } catch (e) {
         context.go('/login');
       }
+      EasyLoading.dismiss();
     });
   }
 
