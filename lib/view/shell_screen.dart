@@ -25,6 +25,7 @@ class ShellScreen extends StatelessWidget {
             ? const Color(0xFFF8F9FA)
             : Colors.white,
         elevation: 0,
+        centerTitle: false,
         title: isHomeScreen
             ? Image.asset('assets/images/main_logo.png', width: 120)
             : Text(
