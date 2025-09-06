@@ -1,8 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late final AuthViewModel authViewModel;
+  final TextEditingController _accountIdController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool isInputCompleted = false;
+  String errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    authViewModel = context.read<AuthViewModel>();
+
+    _accountIdController.addListener(_updateInputState);
+    _passwordController.addListener(_updateInputState);
+  }
+
+  void _updateInputState() {
+    setState(() {
+      isInputCompleted =
+          _accountIdController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty;
+    });
+  }
+
+  @override
+  void dispose() {
+    _accountIdController.removeListener(() {
+      setState(() {});
+    });
+    _passwordController.removeListener(() {
+      setState(() {});
+    });
+    _accountIdController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
+  }
+
+  Future<void> clickLoginButton() async {
+    String accountId = _accountIdController.text;
+    String password = _passwordController.text;
+
+    if (!mounted) return; // State가 dispose 되었는지 먼저 확인
+
+    try {
+      int statusCode = await authViewModel.login(
+        accountId: accountId,
+        password: password,
+        deviceId: "device-id-1234",
+        provider: "ios",
+      );
+
+      if (!mounted) return; // async gap 이후에도 확인
+
+      if (statusCode == 200) {
+        if (context.mounted) {
+          context.go('/home');
+        }
+      } else {
+        setState(() {
+          errorMessage = '로그인에 실패했습니다. 상태 코드: $statusCode';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = '로그인 중 오류가 발생했습니다: $e';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +143,7 @@ class LoginScreen extends StatelessWidget {
   // 2. 입력 필드 위젯
   Widget _buildInputField({required String hintText, bool isPassword = false}) {
     return TextField(
+      controller: isPassword ? _passwordController : _accountIdController,
       obscureText: isPassword, // 비밀번호 숨김 처리
       decoration: InputDecoration(
         hintText: hintText,
@@ -111,11 +189,17 @@ class LoginScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (errorMessage.isNotEmpty) ...[
+          Text(
+            errorMessage,
+            style: const TextStyle(color: Colors.red),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+        ],
         // 일반 로그인 버튼
         ElevatedButton(
-          onPressed: () {
-            context.go('/home');
-          },
+          onPressed: isInputCompleted ? clickLoginButton : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,

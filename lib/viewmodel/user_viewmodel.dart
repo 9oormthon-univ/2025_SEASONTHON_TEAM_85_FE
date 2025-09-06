@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:futurefinder_flutter/service/user_service.dart';
+import 'package:futurefinder_flutter/model/user.dart';
+import 'package:futurefinder_flutter/repository/user_repository.dart';
 
 class UserViewModel extends ChangeNotifier {
-  final UserService _userService;
+  final UserRepository _userRepository;
+  User? _currentUser;
+  User? get currentUser => _currentUser;
 
-  UserViewModel(this._userService);
+  UserViewModel(this._userRepository);
+
+  Future<void> fetchUserProfile() async {
+    _currentUser = await _userRepository.getProfile();
+    notifyListeners();
+  }
 }

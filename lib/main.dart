@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/di/providers.dart';
 import 'package:futurefinder_flutter/router/router.dart';
-//import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,11 +14,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: ThemeData(scaffoldBackgroundColor: Color(0xFFFFFFFF)),
-      title: 'FutureFinder',
-      debugShowCheckedModeBanner: false,
-      routerConfig: router,
+    return MultiProvider(
+      providers: getProviders('http://15.164.172.236/api'),
+      child: MaterialApp.router(
+        theme: ThemeData(scaffoldBackgroundColor: Color(0xFFFFFFFF)),
+        title: 'FutureFinder',
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+      ),
     );
   }
 }
