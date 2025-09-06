@@ -19,7 +19,18 @@ class MyApp extends StatelessWidget {
       providers: getProviders('http://15.164.172.236/api'),
       child: MaterialApp.router(
         builder: EasyLoading.init(),
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xFFFFFFFF)),
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          canvasColor: Colors.white,
+          colorScheme: const ColorScheme.light(
+            surface: Colors.white,
+            primary: Color(0xFF00BFFF),
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+          ),
+        ),
         title: 'FutureFinder',
         debugShowCheckedModeBanner: false,
         routerConfig: router,

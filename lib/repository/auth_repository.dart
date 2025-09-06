@@ -3,7 +3,10 @@ import 'package:futurefinder_flutter/data/api_client.dart';
 import 'package:futurefinder_flutter/data/secure_storage_data_source.dart';
 import 'package:futurefinder_flutter/dto/api_response_dto.dart';
 import 'package:futurefinder_flutter/dto/auth_dto.dart';
-import 'package:futurefinder_flutter/model/user.dart';
+
+
+import '../exception/api_exception.dart';
+import '../model/user.dart';
 
 class AuthRepository {
   final ApiClient _apiClient;
@@ -26,6 +29,48 @@ class AuthRepository {
     return response.status;
   }
 
+  Future<int> signUp(SignUpRequest request) async {
+    final GeneralResponseDto response = await _apiClient.post(
+      url: '/auth/create/account',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: request.toJson(),              // ✅ 반드시 Map -> jsonEncode 되도록
+    );
+
+    final data = response.data;
+    final access = (data is Map) ? data['accessToken'] as String? : null;
+    final refresh = (data is Map) ? data['refreshToken'] as String? : null;
+
+    if (access == null || refresh == null) {
+      throw ApiException(response.status, 'TOKEN_MISSING', '토큰이 응답에 없습니다.');
+    }
+
+    await _secureStorageDataSource.saveAccessToken(access);
+    await _secureStorageDataSource.saveRefreshToken(refresh);
+    return response.status; // 200
+  }
+
+  // ✅ 비밀번호 생성
+  Future<int> createPassword(CreatePasswordRequest request) async {
+    final accessToken = await getAccessToken();
+    if (accessToken == null) {
+      throw ApiException(401, 'AUTH_4', '토큰을 확인해주세요');
+    }
+
+    final GeneralResponseDto response = await _apiClient.post(
+      url: '/auth/create/password',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: request.toJson(),              // ✅ 마찬가지로 JSON
+    );
+
+    return response.status; // 200
+  }
   Future<User> getProfile() async {
     GeneralResponseDto response;
     response = await _apiClient.get(

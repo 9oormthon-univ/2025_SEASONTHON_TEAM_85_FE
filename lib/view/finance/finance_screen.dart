@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/model/asset.dart';
+import 'package:futurefinder_flutter/viewmodel/asset_viewmodel.dart';
+import 'package:futurefinder_flutter/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class FinanceScreen extends StatefulWidget {
   const FinanceScreen({super.key});
@@ -10,21 +14,36 @@ class FinanceScreen extends StatefulWidget {
 }
 
 class _FinanceScreenState extends State<FinanceScreen> {
-  // --- 자산 보유 여부를 결정하는 더미 데이터 ---
-  // 이 값을 false로 바꾸면 기존 화면이 보입니다.
-  bool hasAssets = false;
+  late final AuthViewModel authViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    authViewModel = context.read<AuthViewModel>();
+
+    Future.microtask(() async {
+      try {
+        await authViewModel.fetchData();
+      } catch (e) {
+        context.go('/login');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final assetViewModel = context.watch<AssetViewModel>();
+
     return Scaffold(
       // Scaffold의 배경색을 이미지와 유사하게 변경
       backgroundColor: const Color(0xFFF6F6F6),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // hasAssets 값에 따라 다른 위젯을 보여줌
-          if (hasAssets)
-            _buildMyAssetsView(context) // 자산이 있을 때의 UI
+          // assetViewModel.assets.isNotEmpty 값에 따라 다른 위젯을 보여줌
+          if (assetViewModel.assets.isNotEmpty)
+            _buildMyAssetsView(context, assetViewModel) // 자산이 있을 때의 UI
           else
             _buildAssetLinkCard(context), // 자산이 없을 때의 UI
 
@@ -63,14 +82,6 @@ class _FinanceScreenState extends State<FinanceScreen> {
             children: [
               const Text('자산 보유 여부 (더미 데이터)'),
               const SizedBox(width: 8),
-              Switch(
-                value: hasAssets,
-                onChanged: (value) {
-                  setState(() {
-                    hasAssets = value;
-                  });
-                },
-              ),
             ],
           ),
         ],
@@ -80,12 +91,15 @@ class _FinanceScreenState extends State<FinanceScreen> {
 
   // --- 아래부터는 자산이 있을 때 보여줄 위젯들 ---
 
-  Widget _buildMyAssetsView(BuildContext context) {
+  Widget _buildMyAssetsView(
+    BuildContext context,
+    AssetViewModel assetViewModel,
+  ) {
     return Column(
       children: [
         _buildMyAssetsCard(context),
         const SizedBox(height: 16),
-        _buildAssetList(),
+        _buildAssetList(assetViewModel),
       ],
     );
   }
@@ -158,55 +172,29 @@ class _FinanceScreenState extends State<FinanceScreen> {
   }
 
   // 개별 자산 목록
-  Widget _buildAssetList() {
+  Widget _buildAssetList(AssetViewModel assetViewModel) {
     return Column(
       children: [
-        _buildAssetItem(
-          icon: Icons.savings,
-          color: Colors.blue,
-          type: '적금',
-          source: '농협은행',
-          amount: 103900,
-        ),
-        _buildAssetItem(
-          icon: Icons.wallet,
-          color: Colors.cyan,
-          type: '예금',
-          source: '농협은행',
-          amount: 45500,
-        ),
-        _buildAssetItem(
-          icon: Icons.candlestick_chart,
-          color: Colors.teal,
-          type: '주식',
-          source: '키움증권',
-          amount: 123456,
-        ),
+        for (Asset asset in assetViewModel.assets) _buildAssetItem(asset),
       ],
     );
   }
 
   // 개별 자산 리스트 아이템
-  Widget _buildAssetItem({
-    required IconData icon,
-    required Color color,
-    required String type,
-    required String source,
-    required int amount,
-  }) {
+  Widget _buildAssetItem(Asset asset) {
     final numberFormat = NumberFormat('###,###,###');
     return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: color.withOpacity(0.1),
-        child: Icon(icon, color: color),
+      leading: Image.asset(asset.imageUrl),
+      title: Text(
+        asset.type,
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
-      title: Text(type, style: const TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: Text(source, style: const TextStyle(color: Colors.grey)),
+      subtitle: Text(asset.source, style: const TextStyle(color: Colors.grey)),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '${numberFormat.format(amount)}원',
+            '${numberFormat.format(asset.amount)}원',
             style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(width: 8),

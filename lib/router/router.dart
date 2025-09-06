@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/repository/asset_repository.dart';
 import 'package:futurefinder_flutter/repository/search_repository.dart';
 import 'package:futurefinder_flutter/view/finance/asset_registration_screen.dart';
 import 'package:futurefinder_flutter/view/finance/asset_verification_screen.dart';
@@ -15,9 +16,14 @@ import 'package:futurefinder_flutter/view/subscription/subscription_chatbot_scre
 import 'package:futurefinder_flutter/view/subscription/subscription_registration_screen.dart';
 import 'package:futurefinder_flutter/view/subscription/subscription_screen.dart';
 import 'package:futurefinder_flutter/view/subscription/subscription_verification_screen.dart';
+import 'package:futurefinder_flutter/viewmodel/asset_viewmodel.dart';
 import 'package:futurefinder_flutter/viewmodel/search_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../view/SignUp_screen.dart';
+import '../view/SignUpAccount_screen.dart';
+import '../view/sign_up_complete_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -26,6 +32,26 @@ final router = GoRouter(
   initialLocation: '/login',
   routes: [
     GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+    // ✅ 1단계: 이름/생년월일
+    GoRoute(
+      path: '/signup',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => const SignUpScreen(),
+      routes: [
+        // 2단계(아이디/비번/이메일)
+        GoRoute(
+          path: 'account',              // => /signup/account
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const SignUpAccountScreen(),
+        ),
+        // ✅ 완료 화면
+        GoRoute(
+          path: 'complete',             // => /signup/complete
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const SignUpCompleteScreen(),
+        ),
+      ],
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ShellScreen(navigationShell: navigationShell);
@@ -59,7 +85,13 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/finance',
-              builder: (context, state) => const FinanceScreen(),
+              builder: (context, state) {
+                return ChangeNotifierProvider<AssetViewModel>(
+                  create: (_) =>
+                      AssetViewModel(context.read<AssetRepository>()),
+                  child: const FinanceScreen(),
+                );
+              },
               routes: [
                 GoRoute(
                   path: 'asset-registration',
