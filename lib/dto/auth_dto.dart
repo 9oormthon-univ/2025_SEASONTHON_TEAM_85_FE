@@ -51,14 +51,16 @@ class LoginResponse {
 
 class SignUpRequest {
   final String accountId;
-  final String password;
+  final String userName;
+  final String nickName;
   final String deviceId;
   final String provider;
   final String appToken;
 
   SignUpRequest({
     required this.accountId,
-    required this.password,
+    required this.userName,
+    required this.nickName,
     required this.deviceId,
     required this.provider,
     required this.appToken,
@@ -67,7 +69,8 @@ class SignUpRequest {
   Map<String, dynamic> toJson() {
     return {
       'accountId': accountId,
-      'password': password,
+      'userName': userName,
+      'nickName': nickName,
       'deviceId': deviceId,
       'provider': provider,
       'appToken': appToken,
@@ -80,4 +83,12 @@ class SignUpResponse {
   final String message;
 
   SignUpResponse({required this.status, required this.message});
+}
+class CreatePasswordRequest {
+  final String password;
+  CreatePasswordRequest({required this.password});
+
+  Map<String, dynamic> toJson() => {
+    "password": password,
+  };
 }
