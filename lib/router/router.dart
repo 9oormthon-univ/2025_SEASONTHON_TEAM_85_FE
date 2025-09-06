@@ -3,6 +3,7 @@ import 'package:futurefinder_flutter/view/finance/asset_registration_screen.dart
 import 'package:futurefinder_flutter/view/finance/asset_verification_screen.dart';
 import 'package:futurefinder_flutter/view/finance/finance_screen.dart';
 import 'package:futurefinder_flutter/view/home_screen.dart';
+import 'package:futurefinder_flutter/view/job_onboarding/job_education_input_screen.dart';
 import 'package:futurefinder_flutter/view/jobs_screen.dart';
 import 'package:futurefinder_flutter/view/login_screen.dart';
 import 'package:futurefinder_flutter/view/settings_screen.dart';

@@ -17,7 +17,18 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: getProviders('http://15.164.172.236/api'),
       child: MaterialApp.router(
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xFFFFFFFF)),
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          canvasColor: Colors.white,
+          colorScheme: const ColorScheme.light(
+            surface: Colors.white,
+            primary: Color(0xFF00BFFF),
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+          ),
+        ),
         title: 'FutureFinder',
         debugShowCheckedModeBanner: false,
         routerConfig: router,
