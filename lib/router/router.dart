@@ -7,7 +7,11 @@ import 'package:futurefinder_flutter/view/jobs_screen.dart';
 import 'package:futurefinder_flutter/view/login_screen.dart';
 import 'package:futurefinder_flutter/view/settings_screen.dart';
 import 'package:futurefinder_flutter/view/shell_screen.dart';
-import 'package:futurefinder_flutter/view/subscription_screen.dart';
+import 'package:futurefinder_flutter/view/subscription/interest_area_screen.dart';
+import 'package:futurefinder_flutter/view/subscription/subscription_chatbot_screen.dart';
+import 'package:futurefinder_flutter/view/subscription/subscription_registration_screen.dart';
+import 'package:futurefinder_flutter/view/subscription/subscription_screen.dart';
+import 'package:futurefinder_flutter/view/subscription/subscription_verification_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -53,6 +57,27 @@ final router = GoRouter(
             GoRoute(
               path: '/subscription',
               builder: (context, state) => const SubscriptionScreen(),
+              routes: [
+                GoRoute(
+                  path: 'interest-area',
+                  builder: (context, state) => const InterestAreaScreen(),
+                ),
+                GoRoute(
+                  path: 'subscription-registration',
+                  builder: (context, state) =>
+                      const SubscriptionRegistrationScreen(),
+                ),
+                GoRoute(
+                  path: 'subscription-verification',
+                  builder: (context, state) =>
+                      const SubscriptionVerificationScreen(),
+                ),
+                GoRoute(
+                  path: 'subscription-chatbot',
+                  builder: (context, state) =>
+                      const SubscriptionChatbotScreen(),
+                ),
+              ],
             ),
           ],
         ),
