@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     authViewModel = context.read<AuthViewModel>();
 
     Future.microtask(() async {
-      EasyLoading.show(status: '로딩 중...');
+      EasyLoading.show(status: '로딩 중...', maskType: EasyLoadingMaskType.black);
       try {
         await authViewModel.fetchData();
         EasyLoading.dismiss();

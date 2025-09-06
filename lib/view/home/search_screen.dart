@@ -126,7 +126,9 @@ class _SearchScreenState extends State<SearchScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.bookmark_border, size: 28),
-            onPressed: () {},
+            onPressed: () {
+              context.go('/home/bookmark');
+            },
           ),
         ],
       ),

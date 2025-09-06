@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:futurefinder_flutter/view/finance/asset_registration_screen.dart';
 import 'package:futurefinder_flutter/view/finance/asset_verification_screen.dart';
 import 'package:futurefinder_flutter/view/finance/finance_screen.dart';
+import 'package:futurefinder_flutter/view/home/bookmark_screen.dart';
 import 'package:futurefinder_flutter/view/home/home_screen.dart';
 import 'package:futurefinder_flutter/view/home/search_screen.dart';
 import 'package:futurefinder_flutter/view/jobs_screen.dart';
@@ -36,6 +37,10 @@ final router = GoRouter(
                 GoRoute(
                   path: 'search',
                   builder: (context, state) => const SearchScreen(),
+                ),
+                GoRoute(
+                  path: 'bookmark',
+                  builder: (context, state) => const BookmarkScreen(),
                 ),
               ],
             ),
