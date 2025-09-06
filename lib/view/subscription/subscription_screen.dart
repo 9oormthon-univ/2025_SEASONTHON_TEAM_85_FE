@@ -16,8 +16,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     // 더미 자산 데이터
     type: '청년 주택드림 청약통장',
     source: 'IBK기업은행',
+    accountNumber: "3333-00-1234567",
     amount: 123900,
-    icon: Icons.account_balance,
+    imageUrl: "assets/images/icon_subscription.png",
   );
 
   @override

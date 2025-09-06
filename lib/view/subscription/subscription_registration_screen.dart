@@ -25,8 +25,9 @@ class _SubscriptionRegistrationScreenState
     const Asset(
       type: '청년 주택드림 청약통장',
       source: 'IBK기업은행',
+      accountNumber: "3333-00-1234567",
       amount: 1239000,
-      icon: Icons.account_balance_wallet,
+      imageUrl: "assets/images/icon_savings.png",
     ),
     // 다른 청약 통장이 있다면 여기에 추가
   ];
@@ -282,7 +283,7 @@ class _SubscriptionRegistrationScreenState
         leading: CircleAvatar(
           backgroundColor: const Color(0xFF2F45B5),
           foregroundColor: Colors.white,
-          child: Icon(asset.icon),
+          child: Image.asset(asset.imageUrl),
         ),
         title: Text(
           asset.type,
