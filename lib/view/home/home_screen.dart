@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:futurefinder_flutter/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -19,24 +20,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     authViewModel = context.read<AuthViewModel>();
 
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    await fetchCurrentMember();
-  }
-
-  Future<void> fetchCurrentMember() async {
-    if (authViewModel.currentUser == null) {
+    Future.microtask(() async {
+      EasyLoading.show(status: '로딩 중...', maskType: EasyLoadingMaskType.black);
       try {
-        debugPrint('사용자 정보 불러오기 시도');
-        await authViewModel.fetchUserProfile();
+        await authViewModel.fetchData();
+        EasyLoading.dismiss();
       } catch (e) {
-        debugPrint('사용자 정보 불러오기 실패: ${e.toString()}');
-        if (!mounted) return;
-        context.go("/login");
+        context.go('/login');
       }
-    }
+      EasyLoading.dismiss();
+    });
   }
 
   @override
@@ -73,6 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
         // 검색창
         Expanded(
           child: TextField(
+            onTap: () {
+              context.go('/home/search');
+            },
             decoration: InputDecoration(
               hintText: '검색',
               suffixIcon: const Icon(Icons.search, color: Colors.black),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:futurefinder_flutter/di/providers.dart';
 import 'package:futurefinder_flutter/router/router.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: getProviders('http://15.164.172.236/api'),
       child: MaterialApp.router(
+        builder: EasyLoading.init(),
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           canvasColor: Colors.white,

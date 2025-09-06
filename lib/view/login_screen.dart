@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:futurefinder_flutter/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> clickLoginButton() async {
+    EasyLoading.show(status: '로딩 중...', maskType: EasyLoadingMaskType.black);
     String accountId = _accountIdController.text;
     String password = _passwordController.text;
 
@@ -79,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
         errorMessage = '로그인 중 오류가 발생했습니다: $e';
       });
     }
+    EasyLoading.dismiss();
   }
 
   @override

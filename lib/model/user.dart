@@ -17,14 +17,14 @@ class User {
     required this.imageUrl,
   });
 
-  static Future<User> fromJson(GeneralResponseDto json) async {
+  static User fromJson(Map<String, dynamic> json) {
     return User(
-      username: json.data['username'],
-      nickname: json.data['nickname'],
-      email: json.data['email'],
-      phoneNumber: json.data['phoneNumber'],
-      birth: json.data['birth'],
-      imageUrl: json.data['imageUrl'],
+      username: json['username'] ?? '',
+      nickname: json['nickname'] ?? '',
+      email: json['email'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      birth: json['birth'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
     );
   }
 }

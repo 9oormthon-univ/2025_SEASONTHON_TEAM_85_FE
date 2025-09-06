@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:futurefinder_flutter/data/api_client.dart';
 import 'package:futurefinder_flutter/data/secure_storage_data_source.dart';
 import 'package:futurefinder_flutter/dto/api_response_dto.dart';
@@ -26,12 +27,13 @@ class AuthRepository {
   }
 
   Future<User> getProfile() async {
-    final response = await _apiClient.get(
+    GeneralResponseDto response;
+    response = await _apiClient.get(
       url: '/user/profile',
       headers: {'Authorization': 'Bearer ${await getAccessToken()}'},
     );
 
-    return await User.fromJson(response.data);
+    return User.fromJson(response.data);
   }
 
   Future<String?> getAccessToken() async {
@@ -44,11 +46,9 @@ class AuthRepository {
 
   Future<String> refreshAccessToken() async {
     final refreshToken = await getRefreshToken();
-    if (refreshToken == null) {
-      throw Exception('No refresh token found');
-    }
+    debugPrint("Original refresh token: $refreshToken");
 
-    final response = await _apiClient.post(
+    final response = await _apiClient.get(
       url: '/auth/refresh',
       headers: {"Authorization": "Bearer $refreshToken"},
     );
@@ -58,6 +58,9 @@ class AuthRepository {
 
     await _secureStorageDataSource.saveAccessToken(newAccessToken);
     await _secureStorageDataSource.saveRefreshToken(newRefreshToken);
+
+    debugPrint("New access token: $newAccessToken");
+    debugPrint("New refresh token: $newRefreshToken");
 
     return newAccessToken;
   }

@@ -34,7 +34,8 @@ class _AssetRegistrationScreenState extends State<AssetRegistrationScreen> {
       type: '적금',
       source: '농협은행',
       amount: 103900,
-      icon: Icons.savings_outlined,
+      accountNumber: "3333-00-1234567",
+      imageUrl: "assets/images/icon_savings.png",
     ),
     // 필요하다면 여기에 다른 자산을 추가할 수 있습니다.
     // const Asset(type: '예금', source: '카카오뱅크', amount: 1250000, icon: Icons.wallet_outlined),
@@ -211,7 +212,7 @@ class _AssetRegistrationScreenState extends State<AssetRegistrationScreen> {
         leading: CircleAvatar(
           backgroundColor: const Color(0xFF2F45B5),
           foregroundColor: Colors.white,
-          child: Icon(asset.icon),
+          child: Image.asset(asset.imageUrl),
         ),
         title: Text(
           asset.type,
