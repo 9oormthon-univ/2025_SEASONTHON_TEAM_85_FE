@@ -85,4 +85,24 @@ class SecureStorageDataSource {
       await storage.write(key: "refresh_token", value: refreshToken);
     }
   }
+
+  Future<String?> getAccessToken() async {
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString("access_token");
+    } else {
+      const storage = FlutterSecureStorage();
+      return await storage.read(key: "access_token");
+    }
+  }
+
+  Future<String?> getRefreshToken() async {
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString("refresh_token");
+    } else {
+      const storage = FlutterSecureStorage();
+      return await storage.read(key: "refresh_token");
+    }
+  }
 }

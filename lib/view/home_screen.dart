@@ -1,7 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/viewmodel/auth_viewmodel.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late final AuthViewModel authViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    authViewModel = context.read<AuthViewModel>();
+
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    await fetchCurrentMember();
+  }
+
+  Future<void> fetchCurrentMember() async {
+    if (authViewModel.currentUser == null) {
+      try {
+        debugPrint('사용자 정보 불러오기 시도');
+        await authViewModel.fetchUserProfile();
+      } catch (e) {
+        debugPrint('사용자 정보 불러오기 실패: ${e.toString()}');
+        if (!mounted) return;
+        context.go("/login");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

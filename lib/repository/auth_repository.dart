@@ -1,12 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:futurefinder_flutter/data/api_client.dart';
 import 'package:futurefinder_flutter/data/secure_storage_data_source.dart';
 import 'package:futurefinder_flutter/dto/api_response_dto.dart';
 import 'package:futurefinder_flutter/dto/auth_dto.dart';
+import 'package:futurefinder_flutter/model/user.dart';
 
 class AuthRepository {
   final ApiClient _apiClient;
   final SecureStorageDataSource _secureStorageDataSource;
-
   AuthRepository(this._apiClient, this._secureStorageDataSource);
 
   Future<int> login(LoginRequest request) async {
@@ -23,5 +24,42 @@ class AuthRepository {
     );
 
     return response.status;
+  }
+
+  Future<User> getProfile() async {
+    final response = await _apiClient.get(
+      url: '/user/profile',
+      headers: {'Authorization': 'Bearer ${await getAccessToken()}'},
+    );
+
+    return await User.fromJson(response.data);
+  }
+
+  Future<String?> getAccessToken() async {
+    return await _secureStorageDataSource.getAccessToken();
+  }
+
+  Future<String?> getRefreshToken() async {
+    return await _secureStorageDataSource.getRefreshToken();
+  }
+
+  Future<String> refreshAccessToken() async {
+    final refreshToken = await getRefreshToken();
+    if (refreshToken == null) {
+      throw Exception('No refresh token found');
+    }
+
+    final response = await _apiClient.post(
+      url: '/auth/refresh',
+      headers: {"Authorization": "Bearer $refreshToken"},
+    );
+
+    final newAccessToken = response.data['accessToken'];
+    final newRefreshToken = response.data['refreshToken'];
+
+    await _secureStorageDataSource.saveAccessToken(newAccessToken);
+    await _secureStorageDataSource.saveRefreshToken(newRefreshToken);
+
+    return newAccessToken;
   }
 }

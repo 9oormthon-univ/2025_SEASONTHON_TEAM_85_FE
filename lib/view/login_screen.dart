@@ -209,10 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             elevation: 0,
           ),
-          child: const Text(
-            '로그인 (메인화면 이동, 테스트용)',
-            style: TextStyle(fontSize: 16),
-          ),
+          child: const Text('로그인', style: TextStyle(fontSize: 16)),
         ),
         const SizedBox(height: 12),
         // 카카오 로그인 버튼
