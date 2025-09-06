@@ -27,7 +27,8 @@ class AuthRepository {
   }
 
   Future<User> getProfile() async {
-    final response = await _apiClient.get(
+    GeneralResponseDto response;
+    response = await _apiClient.get(
       url: '/user/profile',
       headers: {'Authorization': 'Bearer ${await getAccessToken()}'},
     );
@@ -45,11 +46,9 @@ class AuthRepository {
 
   Future<String> refreshAccessToken() async {
     final refreshToken = await getRefreshToken();
-    if (refreshToken == null) {
-      throw Exception('No refresh token found');
-    }
+    debugPrint("Original refresh token: $refreshToken");
 
-    final response = await _apiClient.post(
+    final response = await _apiClient.get(
       url: '/auth/refresh',
       headers: {"Authorization": "Bearer $refreshToken"},
     );
@@ -59,6 +58,9 @@ class AuthRepository {
 
     await _secureStorageDataSource.saveAccessToken(newAccessToken);
     await _secureStorageDataSource.saveRefreshToken(newRefreshToken);
+
+    debugPrint("New access token: $newAccessToken");
+    debugPrint("New refresh token: $newRefreshToken");
 
     return newAccessToken;
   }

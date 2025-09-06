@@ -16,8 +16,8 @@ class ApiClient {
     Map<String, String>? headers,
   }) async {
     print("Request uri : POST $_baseUrl$url");
-    print("body : ${body.toString()}");
-    print("headers : $headers.toString()");
+    print("body : $body");
+    print("headers : $headers");
 
     final http.Response response = await http.post(
       Uri.parse('$_baseUrl$url'),

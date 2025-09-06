@@ -19,24 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     authViewModel = context.read<AuthViewModel>();
 
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    await fetchCurrentMember();
-  }
-
-  Future<void> fetchCurrentMember() async {
-    if (authViewModel.currentUser == null) {
+    Future.microtask(() async {
       try {
-        debugPrint('사용자 정보 불러오기 시도');
-        await authViewModel.fetchUserProfile();
+        await authViewModel.fetchData();
       } catch (e) {
-        debugPrint('사용자 정보 불러오기 실패: ${e.toString()}');
-        if (!mounted) return;
-        context.go("/login");
+        context.go('/login');
       }
-    }
+    });
   }
 
   @override
