@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> clickLoginButton() async {
-    EasyLoading.show(status: '로딩 중...');
+    EasyLoading.show(status: '로딩 중...', maskType: EasyLoadingMaskType.black);
     String accountId = _accountIdController.text;
     String password = _passwordController.text;
 

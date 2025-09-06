@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/repository/search_repository.dart';
 import 'package:futurefinder_flutter/view/finance/asset_registration_screen.dart';
 import 'package:futurefinder_flutter/view/finance/asset_verification_screen.dart';
 import 'package:futurefinder_flutter/view/finance/finance_screen.dart';
+import 'package:futurefinder_flutter/view/home/bookmark_screen.dart';
 import 'package:futurefinder_flutter/view/home/home_screen.dart';
 import 'package:futurefinder_flutter/view/home/search_screen.dart';
 import 'package:futurefinder_flutter/view/jobs_screen.dart';
@@ -13,7 +15,9 @@ import 'package:futurefinder_flutter/view/subscription/subscription_chatbot_scre
 import 'package:futurefinder_flutter/view/subscription/subscription_registration_screen.dart';
 import 'package:futurefinder_flutter/view/subscription/subscription_screen.dart';
 import 'package:futurefinder_flutter/view/subscription/subscription_verification_screen.dart';
+import 'package:futurefinder_flutter/viewmodel/search_viewmodel.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -35,7 +39,17 @@ final router = GoRouter(
               routes: [
                 GoRoute(
                   path: 'search',
-                  builder: (context, state) => const SearchScreen(),
+                  builder: (context, state) {
+                    return ChangeNotifierProvider<SearchViewModel>(
+                      create: (_) =>
+                          SearchViewModel(context.read<SearchRepository>()),
+                      child: const SearchScreen(),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: 'bookmark',
+                  builder: (context, state) => const BookmarkScreen(),
                 ),
               ],
             ),

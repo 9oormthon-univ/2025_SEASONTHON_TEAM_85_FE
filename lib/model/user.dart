@@ -17,7 +17,7 @@ class User {
     required this.imageUrl,
   });
 
-  static Future<User> fromJson(Map<String, dynamic> json) async {
+  static User fromJson(Map<String, dynamic> json) {
     return User(
       username: json['username'] ?? '',
       nickname: json['nickname'] ?? '',

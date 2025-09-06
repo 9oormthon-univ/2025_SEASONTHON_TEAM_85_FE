@@ -18,10 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    authViewModel = context.read<AuthViewModel>();
+    authViewModel = context.watch<AuthViewModel>();
 
     Future.microtask(() async {
-      EasyLoading.show(status: '로딩 중...');
+      EasyLoading.show(status: '로딩 중...', maskType: EasyLoadingMaskType.black);
       try {
         await authViewModel.fetchData();
         EasyLoading.dismiss();

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:futurefinder_flutter/model/search_result.dart';
 import 'package:futurefinder_flutter/viewmodel/auth_viewmodel.dart';
+import 'package:futurefinder_flutter/viewmodel/search_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -18,8 +20,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-
-    _searchController.addListener(_onSearchChanged);
 
     authViewModel = context.read<AuthViewModel>();
 
@@ -45,53 +45,16 @@ class _SearchScreenState extends State<SearchScreen> {
     '인플레이션',
   ];
 
-  // --- 검색 결과 상태 관리를 위한 변수 추가 ---
-  List<SearchResult> _searchResults = [];
-  final List<SearchResult> _allTerms = [
-    SearchResult(
-      term: 'GDP',
-      fullName: '[Gross Domestic Product]',
-      definition: '일정 기간 동안 한 나라 안에서 생산된 모든 재화와 서비스의 시장 가치 종합을 나타내는 경제 지표.',
-      isBookmarked: false,
-    ),
-    SearchResult(
-      term: '인플레이션',
-      definition: '일정 기간 동안 재화와 서비스의 전반적인 가격 수준이 상승하는 현상을 의미하는 경제 지표.',
-      isBookmarked: true,
-    ),
-    SearchResult(
-      term: '코스피',
-      definition:
-          '한국거래소의 유가증권시장에 상장된 회사들의 주식에 대한 총합인 시가총액의 기준시점과 비교시점을 비교하여 나타낸 지표.',
-      isBookmarked: false,
-    ),
-  ];
-  // ---
-
   @override
   void dispose() {
-    _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
   }
 
-  // 검색어가 변경될 때마다 호출되는 함수
-  void _onSearchChanged() {
-    final query = _searchController.text.toLowerCase();
-    setState(() {
-      if (query.isEmpty) {
-        _searchResults = [];
-      } else {
-        _searchResults = _allTerms.where((result) {
-          return result.term.toLowerCase().contains(query) ||
-              (result.fullName?.toLowerCase().contains(query) ?? false);
-        }).toList();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final SearchViewModel searchViewModel = context.watch<SearchViewModel>();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -106,6 +69,14 @@ class _SearchScreenState extends State<SearchScreen> {
           },
         ),
         title: TextField(
+          onSubmitted: (v) async {
+            EasyLoading.show(
+              status: "로딩 중...",
+              maskType: EasyLoadingMaskType.black,
+            );
+            await searchViewModel.fetchCurrentSearchResult(v);
+            EasyLoading.dismiss();
+          },
           controller: _searchController,
           autofocus: true, // 화면 진입 시 자동으로 키보드 올라오게 설정
           decoration: InputDecoration(
@@ -126,19 +97,33 @@ class _SearchScreenState extends State<SearchScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.bookmark_border, size: 28),
-            onPressed: () {},
+            onPressed: () {
+              context.go('/home/bookmark');
+            },
           ),
         ],
       ),
-      body: _searchController.text.isEmpty
-          ? _buildInitialView() // 검색어가 없으면 초기 화면 표시
-          : _buildSearchResultsView(), // 검색어가 있으면 결과 표시
+      body: Column(
+        children: [
+          _buildSearchOptions(),
+          SizedBox(height: 10),
+          _buildSearchResultView(searchViewModel),
+        ],
+      ),
     );
   }
 
-  // 초기 화면 (최근 검색어, 인기 검색어)
-  Widget _buildInitialView() {
-    return SingleChildScrollView(
+  // 검색 결과 목록 화면
+  Widget _buildSearchResultView(SearchViewModel searchViewModel) {
+    if (searchViewModel.currentSearchResult == null) {
+      return const Center(child: Text('검색 결과가 없습니다.'));
+    } else {
+      return _buildSearchResultItem(searchViewModel.currentSearchResult!);
+    }
+  }
+
+  Widget _buildSearchOptions() {
+    return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,27 +192,11 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  // 검색 결과 목록 화면
-  Widget _buildSearchResultsView() {
-    if (_searchResults.isEmpty) {
-      return const Center(child: Text('검색 결과가 없습니다.'));
-    }
-    // ListView.separated는 아이템 사이에 구분선을 쉽게 추가할 수 있습니다.
-    return ListView.separated(
-      padding: const EdgeInsets.all(20.0),
-      itemCount: _searchResults.length,
-      separatorBuilder: (context, index) => const Divider(),
-      itemBuilder: (context, index) {
-        final result = _searchResults[index];
-        return _buildSearchResultItem(result);
-      },
-    );
-  }
-
   // 개별 검색 결과 아이템
   Widget _buildSearchResultItem(SearchResult result) {
+    debugPrint(result.term);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -250,11 +219,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    if (result.fullName != null)
-                      TextSpan(
-                        text: ' ${result.fullName}',
-                        style: const TextStyle(color: Colors.grey),
-                      ),
                   ],
                 ),
               ),
@@ -278,7 +242,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            result.definition,
+            result.meaning,
             style: const TextStyle(color: Colors.black54, fontSize: 14),
           ),
         ],
