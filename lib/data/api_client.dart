@@ -16,8 +16,8 @@ class ApiClient {
     Map<String, String>? headers,
   }) async {
     print("Request uri : POST $_baseUrl$url");
-    print("body : $body");
-    print("headers : $headers");
+    print("body : ${body.toString()}");
+    print("headers : $headers.toString()");
 
     final http.Response response = await http.post(
       Uri.parse('$_baseUrl$url'),
@@ -116,9 +116,9 @@ class ApiClient {
     if (response.statusCode != 200) {
       final errorBody = ErrorResponseDto.fromJson(bodyJson);
       throw ApiException(
-        response.statusCode,
+        errorBody.status,
+        errorBody.errorCode,
         errorBody.message,
-        errors: errorBody.errors,
       );
     }
 
@@ -135,8 +135,8 @@ class ApiClient {
       final errorBody = ErrorResponseDto.fromJson(response.data);
       throw ApiException(
         response.statusCode ?? 500,
+        errorBody.errorCode,
         errorBody.message,
-        errors: errorBody.errors,
       );
     }
 

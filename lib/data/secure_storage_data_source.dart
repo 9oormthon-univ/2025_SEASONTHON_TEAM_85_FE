@@ -65,4 +65,24 @@ class SecureStorageDataSource {
       await storage.delete(key: _memberId);
     }
   }
+
+  Future<void> saveAccessToken(accessToken) async {
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString("access_token", accessToken);
+    } else {
+      const storage = FlutterSecureStorage();
+      await storage.write(key: "access_token", value: accessToken);
+    }
+  }
+
+  Future<void> saveRefreshToken(refreshToken) async {
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString("refresh_token", refreshToken);
+    } else {
+      const storage = FlutterSecureStorage();
+      await storage.write(key: "refresh_token", value: refreshToken);
+    }
+  }
 }

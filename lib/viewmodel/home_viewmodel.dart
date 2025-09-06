@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:futurefinder_flutter/mixin/loading_mixin.dart';
-import 'package:futurefinder_flutter/service/user_service.dart';
+import 'package:futurefinder_flutter/repository/user_repository.dart';
 
 class HomeViewModel extends ChangeNotifier with LoadingMixin {
-  final UserService _userService;
+  final UserRepository _userRepository;
 
-  HomeViewModel(this._userService);
+  HomeViewModel(this._userRepository);
 }
