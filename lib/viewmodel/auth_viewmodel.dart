@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:futurefinder_flutter/dto/auth_dto.dart';
+import 'package:futurefinder_flutter/exception/api_exception.dart';
 import 'package:futurefinder_flutter/model/user.dart';
 import 'package:futurefinder_flutter/repository/auth_repository.dart';
 
@@ -11,12 +12,23 @@ class AuthViewModel extends ChangeNotifier {
 
   AuthViewModel(this._authRepository);
 
-  Future<void> refreshToken() async {
-    await _authRepository.refreshAccessToken();
+  Future<void> fetchData() async {
+    await fetchUserProfile();
+    debugPrint("User profile fetched: ${_currentUser?.nickname}");
   }
 
   Future<void> fetchUserProfile() async {
-    _currentUser = await _authRepository.getProfile();
+    try {
+      _currentUser = await _authRepository.getProfile();
+    } on ApiException catch (e) {
+      try {
+        await _authRepository.refreshAccessToken();
+        _currentUser = await _authRepository.getProfile();
+      } catch (e) {
+        rethrow;
+      }
+    }
+
     notifyListeners();
   }
 
