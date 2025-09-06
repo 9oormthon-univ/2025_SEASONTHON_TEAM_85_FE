@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:futurefinder_flutter/view/finance/asset_registration_screen.dart';
 import 'package:futurefinder_flutter/view/finance/asset_verification_screen.dart';
 import 'package:futurefinder_flutter/view/finance/finance_screen.dart';
-import 'package:futurefinder_flutter/view/home_screen.dart';
+import 'package:futurefinder_flutter/view/home/home_screen.dart';
+import 'package:futurefinder_flutter/view/home/search_screen.dart';
 import 'package:futurefinder_flutter/view/jobs_screen.dart';
 import 'package:futurefinder_flutter/view/login_screen.dart';
 import 'package:futurefinder_flutter/view/settings_screen.dart';
@@ -31,6 +32,12 @@ final router = GoRouter(
             GoRoute(
               path: '/home',
               builder: (context, state) => const HomeScreen(),
+              routes: [
+                GoRoute(
+                  path: 'search',
+                  builder: (context, state) => const SearchScreen(),
+                ),
+              ],
             ),
           ],
         ),

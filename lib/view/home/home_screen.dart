@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:futurefinder_flutter/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
     authViewModel = context.read<AuthViewModel>();
 
     Future.microtask(() async {
+      EasyLoading.show(status: '로딩 중...');
       try {
         await authViewModel.fetchData();
+        EasyLoading.dismiss();
       } catch (e) {
         context.go('/login');
       }
@@ -62,6 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
         // 검색창
         Expanded(
           child: TextField(
+            onTap: () {
+              context.go('/home/search');
+            },
             decoration: InputDecoration(
               hintText: '검색',
               suffixIcon: const Icon(Icons.search, color: Colors.black),
