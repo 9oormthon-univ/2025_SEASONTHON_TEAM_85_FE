@@ -79,7 +79,12 @@ class _AssetRegistrationScreenState extends State<AssetRegistrationScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFF8F9FA),
         elevation: 0,
-        leading: const Icon(Icons.arrow_back_ios, color: Colors.black),
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+        ),
         title: const Text(
           '자산등록',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
