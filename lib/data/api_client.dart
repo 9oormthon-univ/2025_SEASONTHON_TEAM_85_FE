@@ -113,7 +113,7 @@ class ApiClient {
 
     print(bodyJson);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 201 ) {
       final errorBody = ErrorResponseDto.fromJson(bodyJson);
       throw ApiException(
         errorBody.status,
@@ -131,7 +131,7 @@ class ApiClient {
   ) async {
     print(response);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 201) {
       final errorBody = ErrorResponseDto.fromJson(response.data);
       throw ApiException(
         response.statusCode ?? 500,

@@ -174,10 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
         const Text('계정이 없으신가요? ', style: TextStyle(color: Colors.black)),
         // GestureDetector를 사용해 텍스트에 탭 이벤트를 추가
         GestureDetector(
-          onTap: () {
-            // 회원가입 페이지로 이동하는 로직
-            debugPrint("회원가입 tapped");
-          },
+          onTap: () => context.push('/signup'), // 여기만 변경!
           child: const Text(
             '회원가입',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),

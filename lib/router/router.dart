@@ -19,6 +19,10 @@ import 'package:futurefinder_flutter/viewmodel/search_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../view/SignUp_screen.dart';
+import '../view/SignUpAccount_screen.dart';
+import '../view/sign_up_complete_screen.dart';
+
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
@@ -26,6 +30,26 @@ final router = GoRouter(
   initialLocation: '/login',
   routes: [
     GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+    // ✅ 1단계: 이름/생년월일
+    GoRoute(
+      path: '/signup',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => const SignUpScreen(),
+      routes: [
+        // 2단계(아이디/비번/이메일)
+        GoRoute(
+          path: 'account',              // => /signup/account
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const SignUpAccountScreen(),
+        ),
+        // ✅ 완료 화면
+        GoRoute(
+          path: 'complete',             // => /signup/complete
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const SignUpCompleteScreen(),
+        ),
+      ],
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ShellScreen(navigationShell: navigationShell);
