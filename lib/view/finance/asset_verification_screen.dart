@@ -23,6 +23,7 @@ class _AssetVerificationScreenState extends State<AssetVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
@@ -34,7 +35,10 @@ class _AssetVerificationScreenState extends State<AssetVerificationScreen> {
             }
           },
         ),
-        title: Text(_isRegistrationComplete ? '' : '자산일치여부'), // 완료 화면에서는 타이틀 없음
+        title: Text(
+          _isRegistrationComplete ? '' : '자산일치여부',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ), // 완료 화면에서는 타이틀 없음
       ),
       backgroundColor: Colors.white,
       body: Padding(

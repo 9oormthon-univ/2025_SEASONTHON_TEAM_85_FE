@@ -1,21 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/model/asset.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-
-// 등록된 자산을 표현하기 위한 데이터 클래스
-class Asset {
-  final String type;
-  final String source;
-  final int amount;
-  final IconData icon;
-
-  const Asset({
-    required this.type,
-    required this.source,
-    required this.amount,
-    required this.icon,
-  });
-}
 
 class AssetRegistrationScreen extends StatefulWidget {
   const AssetRegistrationScreen({super.key});
@@ -79,6 +65,7 @@ class _AssetRegistrationScreenState extends State<AssetRegistrationScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFF8F9FA),
         elevation: 0,
+        centerTitle: true,
         leading: IconButton(
           onPressed: () {
             context.pop();

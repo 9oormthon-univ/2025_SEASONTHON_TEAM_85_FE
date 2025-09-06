@@ -7,13 +7,17 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String userName = '홍길동'; // 실제로는 사용자 데이터에서 가져옴
+    final String email = 'honggildong@example.com'; // 실제로는 사용자 데이터에서 가져옴
+    final String phoneNumber = '010-1234-5678'; // 실제로는 사용자 데이터에서 가져옴
+
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       children: [
         const SizedBox(height: 24),
-        _buildProfileSection(),
+        _buildProfileSection(userName),
         const SizedBox(height: 24),
-        _buildContactInfoBox(),
+        _buildContactInfoBox(email, phoneNumber),
         const SizedBox(height: 32),
         _buildSectionHeader('계정'),
         _buildSettingsItem('아이디'),
@@ -33,7 +37,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileSection() {
+  Widget _buildProfileSection(String userName) {
     return Row(
       children: [
         // 프로필 아이콘 Placeholder
@@ -52,10 +56,10 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 16),
-        const Expanded(
+        SizedBox(width: 16),
+        Expanded(
           child: Text(
-            '프로필',
+            userName,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
@@ -65,7 +69,7 @@ class SettingsScreen extends StatelessWidget {
   }
 
   // 전화번호, 이메일 정보 박스
-  Widget _buildContactInfoBox() {
+  Widget _buildContactInfoBox(String email, String phoneNumber) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFF7F8FA),
@@ -73,19 +77,19 @@ class SettingsScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildInfoTextField('전화번호'),
+          _buildInfoTextField('전화번호', phoneNumber),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Divider(height: 1, color: Colors.grey.shade200),
           ),
-          _buildInfoTextField('이메일'),
+          _buildInfoTextField('이메일', email),
         ],
       ),
     );
   }
 
   // 정보 박스 내부의 텍스트 필드 스타일 행
-  Widget _buildInfoTextField(String label) {
+  Widget _buildInfoTextField(String label, String value) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       child: Row(
@@ -98,7 +102,8 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           Text('|', style: TextStyle(color: Color(0xFFE0E0E0), fontSize: 16)),
-          // Expanded(child: TextField()), // 실제 입력 필드가 필요한 경우
+          SizedBox(width: 12),
+          Text(value, style: TextStyle(fontSize: 15)),
         ],
       ),
     );
