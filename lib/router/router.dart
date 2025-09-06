@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futurefinder_flutter/repository/asset_repository.dart';
 import 'package:futurefinder_flutter/repository/search_repository.dart';
 import 'package:futurefinder_flutter/view/finance/asset_registration_screen.dart';
 import 'package:futurefinder_flutter/view/finance/asset_verification_screen.dart';
@@ -15,6 +16,7 @@ import 'package:futurefinder_flutter/view/subscription/subscription_chatbot_scre
 import 'package:futurefinder_flutter/view/subscription/subscription_registration_screen.dart';
 import 'package:futurefinder_flutter/view/subscription/subscription_screen.dart';
 import 'package:futurefinder_flutter/view/subscription/subscription_verification_screen.dart';
+import 'package:futurefinder_flutter/viewmodel/asset_viewmodel.dart';
 import 'package:futurefinder_flutter/viewmodel/search_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +61,13 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/finance',
-              builder: (context, state) => const FinanceScreen(),
+              builder: (context, state) {
+                return ChangeNotifierProvider<AssetViewModel>(
+                  create: (_) =>
+                      AssetViewModel(context.read<AssetRepository>()),
+                  child: const FinanceScreen(),
+                );
+              },
               routes: [
                 GoRoute(
                   path: 'asset-registration',
